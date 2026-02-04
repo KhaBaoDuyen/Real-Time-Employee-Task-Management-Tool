@@ -5,6 +5,7 @@ import {
 	Scripts,
 	ScrollRestoration,
 	isRouteErrorResponse,
+	useLocation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
@@ -12,8 +13,9 @@ import "./app.css";
 import "./styles/main.scss";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Header } from "./components/layout/header/header";
-import { Footer } from "./components/layout/footer/footer";
+import { Sidebar } from "~/components/layout/Sidebar/Sidebar";
+import { Topbar } from "~/components/layout/Topbar/Topbar";
+
 export const links: Route.LinksFunction = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
 	{
@@ -48,18 +50,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-	return (
-		<div className="flex min-h-screen flex-col">
- 			<Header />
+ 	const location = useLocation();
+ 	return (
+		<div className="flex min-h-screen ">
+			<Sidebar />
 
- 			<main className="flex-1">
-				<Outlet />
-			</main>
-
- 			<Footer />
-		</div>);
+			<div className="flex flex-1 pl-0 pt-0 p-10 bg-white flex-col">
+				<Topbar />
+				<main className="flex-1 rounded-2xl bg-surface-100 p-6">
+					<Outlet key={location.pathname} />
+				</main>
+			</div>
+		</div>
+	);
 }
-
+ 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 	let message = "Oops!";
 	let details = "An unexpected error occurred.";
