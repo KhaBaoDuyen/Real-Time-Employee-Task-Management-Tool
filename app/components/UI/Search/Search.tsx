@@ -1,19 +1,19 @@
 interface SearchProps {
-    width?: string;
-    showOnMobile?: boolean;
-    type?: string;
-    showIcon?: boolean;
+	width?: string;
+	showOnMobile?: boolean;
+	type?: string;
+	showIcon?: boolean;
 }
 
 export const Search = ({
-    width = "lg:w-5/12",
-    showOnMobile = false,
-    type = "solid",
-    showIcon = true,
+	width = "lg:w-5/12",
+	showOnMobile = false,
+	type = "solid",
+	showIcon = true,
 }: SearchProps) => {
-    return (
-        <div
-            className={`
+	return (
+		<div
+			className={`
         ${showOnMobile ? "flex" : "hidden"}
         lg:flex
         ${width}
@@ -26,33 +26,32 @@ export const Search = ({
         pr-0
         w-full
       `}
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-gray-300"
-            >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				className="text-gray-300"
+			>
+				<circle cx="11" cy="11" r="8" />
+				<line x1="21" y1="21" x2="16.65" y2="16.65" />
+			</svg>
 
-            <input
-                type="text"
-                className="p-2 w-full bg-transparent placeholder:text-gray-300 outline-none
+			<input
+				type="text"
+				className="p-2 w-full bg-transparent placeholder:text-gray-300 outline-none
                  border-none "
-                placeholder="Tìm kiếm..."
-            />
-            {
-                showIcon && (
-                    <button
-                        className="
+				placeholder="Tìm kiếm..."
+			/>
+			{showIcon && (
+				<button
+					className="
                         bg-accent-600
                         min-w-max
                         px-4
@@ -64,25 +63,23 @@ export const Search = ({
                         flex
                         items-center
                         gap-2
-                    " >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 lg:hidden"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
+                    "
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-5 w-5 lg:hidden"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						strokeWidth="2"
+					>
+						<circle cx="11" cy="11" r="8" />
+						<line x1="21" y1="21" x2="16.65" y2="16.65" />
+					</svg>
 
-                        <span className="hidden lg:inline">Tìm kiếm</span>
-                    </button>
-                )
-            }
-
-
-        </div>
-    );
+					<span className="hidden lg:inline">Tìm kiếm</span>
+				</button>
+			)}
+		</div>
+	);
 };

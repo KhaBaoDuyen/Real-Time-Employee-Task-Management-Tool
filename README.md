@@ -98,4 +98,4 @@ This template comes with [Tailwind CSS](https://tailwindcss.com/) already config
 ---
 
 Built with ❤️ using React Router.
-"# Real-Time-Employee-Task-Management-Tool" 
+"# Real-Time-Employee-Task-Management-Tool"

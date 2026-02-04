@@ -27,7 +27,7 @@ export const links: Route.LinksFunction = () => [
 		rel: "stylesheet",
 		href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
 	},
-	{rel: "icon", href: "/assets/images/logoTab.png" },
+	{ rel: "icon", href: "/assets/images/logoTab.png" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -38,7 +38,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<Meta />
 				<Links />
-				
 			</head>
 			<body>
 				{children}
@@ -50,8 +49,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
- 	const location = useLocation();
- 	return (
+	const location = useLocation();
+	return (
 		<div className="flex min-h-screen ">
 			<Sidebar />
 
@@ -64,7 +63,7 @@ export default function App() {
 		</div>
 	);
 }
- 
+
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 	let message = "Oops!";
 	let details = "An unexpected error occurred.";
