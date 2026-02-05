@@ -1,7 +1,8 @@
-export interface Istaff{
+export interface Istaff {
     name: string,
     phone: string,
     password: string,
     image: string,
     status: boolean,
+    role: string,
 }
