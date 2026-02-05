@@ -11,7 +11,7 @@ export default function StaffForm() {
     const methods = useForm();
     const [status, setStatus] = useState(true);
 
-    const handleSubmitForm = async (data) => {
+    const handleSubmitForm = async (data:any) => {
         console.log(data)
     }
 

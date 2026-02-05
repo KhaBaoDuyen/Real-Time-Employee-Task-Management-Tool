@@ -19,7 +19,7 @@ export const SIDEBAR_DATA: Sidebar[] = [
   },
   {
     title: "Công việc",
-    slug: "/owner/tasks",
+    slug: "/owner/task/list",
     icon: ClipboardList,
   },
   {

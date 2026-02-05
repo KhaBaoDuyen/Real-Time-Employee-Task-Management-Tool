@@ -5,47 +5,31 @@ import { Link, useNavigate } from "react-router";
 //COMPONENTS
 import Loading from "~/components/UI/Loading/loading";
 import { RowActions } from "~/components/UI/RowActions/RowActions";
-import StaffCreatePage from "./staff.create";
+import TaskCreatePage from "~/pages/owner/task/task.create";
+
 
 //INTERFACE+ SREVICE
-import { Istaff } from "../../../../shared/types/staff.interface";
+import { ITask } from "../../../../shared/types/task.interface";
 import { getStaffs } from "~/services/staff.service";
 
-export default function StaffListPage() {
+export default function TaskListPage() {
     const [loading, setLoading] = useState(false);
-    const [staffs, setStaffs] = useState<Istaff[]>([]);
-    const navigate = useNavigate();
+    const [tasks, setTasks] = useState<ITask[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleOpentCreate = async () => {
+    const handleOpentCreate = () => {
         setIsOpen((prev) => !prev);
     }
-
-    const fetchStaff = async () => {
-        setLoading(true);
-        try {
-            const res = await getStaffs();
-            return setStaffs(res)
-        } catch (err) {
-            console.log("Error fetch staffs =>", err);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        fetchStaff();
-    }, []);
 
     return (
         <>
             <div className="py-5 relative">
                 <span className="flex justify-between">
                     <h1 className="text-2xl font-bold text-white">
-                        Quản lí nhân viên
+                        Quản lí công việc
                     </h1>
                     <button onClick={handleOpentCreate}
-                        className="p-2 bg-primary text-white rounded-md shadow-md">Thêm nhân viên</button>
+                        className="p-2 bg-primary text-white rounded-md shadow-md">Thêm công việc</button>
                 </span>
 
 
@@ -56,10 +40,11 @@ export default function StaffListPage() {
                                 <thead className="sticky top-0 z-10 text-white shadow">
                                     <tr className="text-center">
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-l-md">Id</th>
-                                        <th colSpan={2} className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Tên nhân viên</th>
-                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Số điện thoại</th>
-                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Task</th>
-                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Trạng thái</th>
+                                        <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Tiêu đề</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Nội dung công việc</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Mức độ</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Người phụ trách</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Ngày đáo hạn</th>
                                         <th className="py-3 px-4 flex justify-center bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-r-md"><EllipsisVertical /></th>
                                     </tr>
                                 </thead>
@@ -71,32 +56,25 @@ export default function StaffListPage() {
                                     </tr>
                                 ) : (
                                     <tbody>
-                                        {staffs.length === 0 ? (
+                                        {tasks.length === 0 ? (
                                             <tr>
                                                 <td colSpan={7} className="text-center py-8 text-white bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-md">
-                                                    Không có nhân viên
+                                                    Không có công việc
                                                 </td>
                                             </tr>
                                         ) : (
-                                            staffs.map((s, index) => (
+                                            tasks.map((s, index) => (
                                                 <tr key={index} className="shadow text-center text-white hover:scale-102">
                                                     <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-l-md">{index + 1}</td>
 
                                                     <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">
-                                                        <img
-                                                            src={s.image}
-                                                            alt={s.name}
-                                                            className="w-15 h-15 object-cover rounded"
-                                                        />
+                                                        Công việc
                                                     </td>
 
-                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">{s.name}</td>
-                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">{s.phone}</td>
-                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">(4)</td>
-                                                    <td className="py-3 px-4  bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">
-                                                        <p className={` rounded-2xl ${s.status ? "bg-success" : "danger"}`}> {s.status ? "Hoạt động" : "Không hoạt động"}</p>
-                                                    </td>
-
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Nội dung</td>
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Mức độ</td>
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Người phụ trách</td>
+                                                    <td className="py-3 px-4  bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Ngày đáo hạn</td>
                                                     <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-r-md">
                                                         <RowActions
                                                         // onEdit={() => navigate(`/admin/staff/${s.slug}/edit`)}
@@ -116,7 +94,7 @@ export default function StaffListPage() {
                 </div>
 
                 {isOpen && (
-                    <> <StaffCreatePage onClose={() => setIsOpen(false)} /></>
+                    <> <TaskCreatePage onClose={() => setIsOpen(false)} /></>
                 )}
             </div>
         </>

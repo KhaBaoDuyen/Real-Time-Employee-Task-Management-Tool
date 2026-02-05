@@ -1,21 +1,24 @@
-type SwitchOption<T> = {
+type Primitive = string | number | boolean
+
+type SwitchOption<T extends Primitive> = {
   label: string
   value: T
 }
 
-type SwitchProps<T> = {
+type SwitchProps<T extends Primitive> = {
   label: string
   value: T
   onChange: (value: T) => void
-  options: [SwitchOption<T>, SwitchOption<T>]  
+  options: [SwitchOption<T>, SwitchOption<T>]
 }
 
-export default function Switch<T>({
+export default function Switch<T extends Primitive>({
   label,
   value,
   onChange,
   options
 }: SwitchProps<T>) {
+
   const [left, right] = options
 
   return (
