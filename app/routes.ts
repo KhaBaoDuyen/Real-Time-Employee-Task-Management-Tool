@@ -10,7 +10,7 @@ export default [
   //    route("login", "routes/auth/login.tsx"),
   //   route("verify", "routes/auth/verify.tsx"),
 
-  layout("layouts/Owner.layout.tsx", [
+  layout("layouts/owner.layout.tsx", [
     route("owner/staff", "routes/owner/staff/staff.list.tsx"),
     route("owner/staff/create", "routes/owner/staff/staff.create.tsx")
   ]),
