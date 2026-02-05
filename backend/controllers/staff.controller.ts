@@ -30,7 +30,7 @@ export const getStaff = async (_req: Request, res: Response) => {
 
 export const createStaff = async (req: Request, res: Response) => {
     try {
-        const { name, phone, password, status } = req.body;
+        const { name, phone, password, status, role } = req.body;
 
         if (!name || !phone || !password) {
             return res.status(400).json(
@@ -53,6 +53,7 @@ export const createStaff = async (req: Request, res: Response) => {
             phone,
             password: hassPassword,
             status,
+            role,
             image: imageUrl,
             createAt: new Date(),
         });
