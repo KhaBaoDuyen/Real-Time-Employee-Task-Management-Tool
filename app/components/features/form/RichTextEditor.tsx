@@ -7,7 +7,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { useRef } from "react";
 
- import {
+import {
     Bold,
     Italic,
     Underline as UnderlineIcon,
@@ -25,9 +25,10 @@ type Props = {
     label?: string;
     value?: string;
     onChange?: (value: string) => void;
+    error?: any;
 };
 
-export const RichTextEditor = ({ label, value, onChange }: Props) => {
+export const RichTextEditor = ({ label, value, onChange, error }: Props) => {
     const fileRef = useRef<HTMLInputElement>(null);
 
     const editor = useEditor({
@@ -51,7 +52,7 @@ export const RichTextEditor = ({ label, value, onChange }: Props) => {
 
     if (!editor) return null;
 
-     const addImage = (file: File) => {
+    const addImage = (file: File) => {
         const reader = new FileReader();
 
         reader.onload = () => {
@@ -82,7 +83,7 @@ export const RichTextEditor = ({ label, value, onChange }: Props) => {
                 <p className="font-bold text-accent-600">{label}</p>
             )}
 
-             <div className="flex flex-wrap gap-1 border p-2 rounded-md bg-gray-50">
+            <div className="flex flex-wrap gap-1 border p-2 rounded-md bg-gray-50">
 
                 <button className={btn} onClick={() => editor.chain().focus().toggleBold().run()}>
                     <Bold size={16} />
@@ -137,9 +138,15 @@ export const RichTextEditor = ({ label, value, onChange }: Props) => {
                 />
             </div>
 
-             <div className="border rounded-md p-3 min-h-[220px] bg-white prose max-w-none">
+            <div className="border rounded-md p-3 min-h-[150px] bg-white prose max-w-none">
                 <EditorContent editor={editor} />
             </div>
+            {error && (
+                <p className="text-red-500 text-sm mt-1">
+                    {error.message}
+                </p>
+            )}
+
         </div>
     );
 };
