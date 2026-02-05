@@ -1,19 +1,42 @@
 import { EllipsisVertical } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
+
+//COMPONENTS
 import Loading from "~/components/UI/Loading/loading";
 import { RowActions } from "~/components/UI/RowActions/RowActions";
 import StaffCreatePage from "./staff.create";
 
+//INTERFACE+ SREVICE
+import { Istaff } from "../../../../shared/types/staff.type";
+import { getStaffs } from "~/services/staff.service";
+
 export default function StaffListPage() {
     const [loading, setLoading] = useState(false);
-    const [staffs, setStaffs] = useState([]);
+    const [staffs, setStaffs] = useState<Istaff[]>([]);
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpentCreate = async () => {
         setIsOpen((prev) => !prev);
     }
+
+    const fetchStaff = async () => {
+        setLoading(true);
+        try {
+            const res = await getStaffs();
+            return setStaffs(res)
+        } catch (err) {
+            console.log("Error fetch staffs =>", err);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchStaff();
+    }, []);
+
     return (
         <>
             <div className="py-5 relative">
@@ -31,47 +54,52 @@ export default function StaffListPage() {
                         <div className="">
                             <table className="w-full border-separate border-spacing-y-3">
                                 <thead className="sticky top-0 z-10 text-white shadow">
-                                    <tr>
-                                        <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-l-md">Id</th>
-                                        <th colSpan={2} className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 text-left">Tên nhân viên</th>
-                                        <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Thương hiệu</th>
-                                        <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Số điện thoại</th>
-                                        <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Task</th>
-                                        <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Trạng thái</th>
-                                        <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300  rounded-r-md"><EllipsisVertical /></th>
+                                    <tr className="text-center">
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-l-md">Id</th>
+                                        <th colSpan={2} className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Tên nhân viên</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Số điện thoại</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Task</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Trạng thái</th>
+                                        <th className="py-3 px-4 flex justify-center bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-r-md"><EllipsisVertical /></th>
                                     </tr>
                                 </thead>
-                                {loading ? <Loading /> : (
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan={7} className="text-center py-8 text-white bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-md">
+                                            <Loading />
+                                        </td>
+                                    </tr>
+                                ) : (
                                     <tbody>
                                         {staffs.length === 0 ? (
                                             <tr>
-                                                <td colSpan={9} className="text-center py-8 text-white bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-md">
+                                                <td colSpan={7} className="text-center py-8 text-white bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-md">
                                                     Không có nhân viên
                                                 </td>
                                             </tr>
                                         ) : (
-                                            staffs.map((p, index) => (
-                                                <tr key={index} className="shadow hover:scale-102">
-                                                    <td className="py-3 px-4 bg-white rounded-l-md">{index + 1}</td>
+                                            staffs.map((s, index) => (
+                                                <tr key={index} className="shadow text-center text-white hover:scale-102">
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-l-md">{index + 1}</td>
 
-                                                    <td className="py-3 px-4 bg-white">
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">
                                                         <img
-                                                            src={'avatar.png'}
-                                                            alt={"name"}
-                                                            className="w-12 h-12 object-cover rounded"
+                                                            src={s.image}
+                                                            alt={s.name}
+                                                            className="w-15 h-15 object-cover rounded"
                                                         />
                                                     </td>
 
-                                                    <td className="py-3 px-4 bg-white">{"name"}</td>
-                                                    <td className="py-3 px-4 bg-white">{"sdt"}</td>
-                                                    <td className="py-3 px-4 bg-white">{"vai trò"}</td>
-                                                    <td className="py-3 px-4 bg-white">
-                                                        {/* {p.status ? "Hoạt động" : "Không hoạt động"} */}
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">{s.name}</td>
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">{s.phone}</td>
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">(4)</td>
+                                                    <td className="py-3 px-4  bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">
+                                                        <p className={` rounded-2xl ${s.status ? "bg-success" : "danger"}`}> {s.status ? "Hoạt động" : "Không hoạt động"}</p>
                                                     </td>
 
-                                                    <td className="py-3 px-4 bg-white rounded-r-md">
+                                                    <td className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-r-md">
                                                         <RowActions
-                                                        // onEdit={() => navigate(`/admin/staff/${p.slug}/edit`)}
+                                                        // onEdit={() => navigate(`/admin/staff/${s.slug}/edit`)}
                                                         />
                                                     </td>
                                                 </tr>

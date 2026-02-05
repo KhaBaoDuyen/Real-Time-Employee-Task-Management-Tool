@@ -22,19 +22,19 @@ export const RowActions = ({ onEdit, onDelete }: RowActionProp) => {
         <div ref={wrapperRef} className="relative z-50 inline-block">
             <button
                 onClick={() => setOpen((prev) => !prev)}
-                className="p-2 rounded-md hover:bg-gray-100"
+                className="p-2 rounded-md"
             >
                 <EllipsisVertical size={18} />
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border z-50">
+                <div className="absolute right-0 mt-2 w-32 bg-white text-gray-700 rounded-lg shadow-lg border z-50">
                     <button
                         onClick={() => {
                             onEdit?.();
                             setOpen(false);
                         }}
-                        className="block flex gap-2 w-full px-3 py-2 text-left hover:bg-gray-100"
+                        className="block flex gap-2 w-full px-3 py-2 text-left hover:bg-gray-100 hover:rounded-lg"
                     >
                         <SquarePen size={18}/> <p>Chỉnh sửa</p>
                     </button>
@@ -44,7 +44,7 @@ export const RowActions = ({ onEdit, onDelete }: RowActionProp) => {
                             onDelete?.();
                             setOpen(false);
                         }}
-                        className="block flex gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50"
+                        className="block flex gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 hover:rounded-lg"
                     >
                         <Trash2 size={18}/> <p>Xóa</p>
                     </button>
