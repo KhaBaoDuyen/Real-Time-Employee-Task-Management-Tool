@@ -125,10 +125,7 @@ export const RichTextEditor = ({ label, value, onChange, error }: Props) => {
                     <Redo2 size={16} />
                 </button>
 
-                <button className={btn} onClick={() => fileRef.current?.click()}>
-                    <ImageIcon size={16} />
-                </button>
-
+            
                 <input
                     ref={fileRef}
                     type="file"
