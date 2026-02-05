@@ -20,8 +20,8 @@ export const Search = ({
         ${type === "solid" ? "bg-white" : ""}
         ${type === "outline" ? "border-2 border-accent-600" : ""}
         items-center
-        bg-white/20
-        rounded-md
+        bg-white/10
+        rounded-4xl
         px-3
         pr-0
         w-full
@@ -45,7 +45,7 @@ export const Search = ({
 
             <input
                 type="text"
-                className="p-2 w-full bg-transparent placeholder:text-gray-300 outline-none
+                className="p-2 w-full bg-transparent text-white placeholder:text-gray-300 outline-none
                  border-none "
                 placeholder="Tìm kiếm..."
             />
