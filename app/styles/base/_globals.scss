@@ -1,0 +1,21 @@
+@use "../abstracts/colors" as *;
+
+.bg-base {
+    background: $base;
+}
+
+.bg-primary {
+    background: $primary-bg;
+}
+
+.bg-primary:hover {
+    background: $primary;
+}
+
+.bg-danger{
+    background: $danger;
+}
+
+.text-primary {
+    color: $primary-bg;
+}
