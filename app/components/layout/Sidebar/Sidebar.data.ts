@@ -1,12 +1,9 @@
 import {
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
   Users,
-  Tags,
-  BadgeDollarSign,
-  Store
-} from "lucide-react";
+  ClipboardList,
+  MessageCircle,
+  Settings,
+ } from "lucide-react";
 
 type Sidebar = {
   title: string;
@@ -16,38 +13,23 @@ type Sidebar = {
 
 export const SIDEBAR_DATA: Sidebar[] = [
   {
-    title: "Dashboard",
-    slug: "/admin",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Sản phẩm",
-    slug: "/admin/products",
-    icon: Package,
-  },
-  {
-    title: "Danh mục",
-    slug: "/admin/categories",
-    icon: Tags,
-  },
-  {
-    title: "Tài khoản",
-    slug: "/admin/users",
+    title: "Nhân viên",
+    slug: "/owner/staff",
     icon: Users,
   },
   {
-    title: "Đơn hàng",
-    slug: "/admin/orders",
-    icon: ShoppingCart,
+    title: "Công việc",
+    slug: "/owner/tasks",
+    icon: ClipboardList,
   },
   {
-    title: "Thương hiệu",
-    slug: "/admin/brands",
-    icon: BadgeDollarSign,
+    title: "Chat",
+    slug: "/owner/chat",
+    icon: MessageCircle,
   },
   {
-    title: "Chuỗi cửa hàng",
-    slug: "/admin/stores",
-    icon: Store,
+    title: "Cài đặt",
+    slug: "/owner/settings",
+    icon: Settings,
   },
 ];

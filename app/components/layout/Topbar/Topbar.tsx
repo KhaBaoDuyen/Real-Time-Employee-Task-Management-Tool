@@ -7,8 +7,8 @@ export const Topbar = () => {
   const [openUser, setOpenUser] = useState(false);
 
   return (
-    <header className="flex items-center justify-between bg-white py-4 ">
-      <Search showIcon={false} type="outline" />
+    <header className="flex items-center justify-between border-white border-b-1 mx-auto w-full  py-4 ">
+      <Search showIcon={false}  />
 
       <div className="flex items-center gap-4 relative">
          <div className="relative">
@@ -17,7 +17,7 @@ export const Topbar = () => {
               setOpenNotify(!openNotify);
               setOpenUser(false);
             }}
-            className="p-2 rounded-full hover:bg-gray-100"
+            className="p-2 rounded-full text-white"
           >
             <Bell size={20} />
           </button>
@@ -41,7 +41,7 @@ export const Topbar = () => {
               setOpenUser(!openUser);
               setOpenNotify(false);
             }}
-            className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded-lg"
+            className="flex items-center gap-2 text-white px-2 py-1 rounded-lg"
           >
             <img
               src="/avatar.png"
