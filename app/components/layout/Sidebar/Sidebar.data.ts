@@ -14,7 +14,7 @@ type Sidebar = {
 export const SIDEBAR_DATA: Sidebar[] = [
   {
     title: "Nhân viên",
-    slug: "/owner/staff",
+    slug: "/owner/staff/list",
     icon: Users,
   },
   {

@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from "react-router";
+import { ToastContainer } from "react-toastify";
 import { Sidebar } from "~/components/layout/Sidebar/Sidebar";
 import { Topbar } from "~/components/layout/Topbar/Topbar";
 
@@ -16,6 +17,16 @@ export default function AdminLayout() {
                     <Outlet key={location.pathname} />
                 </main>
             </div>
+            	<ToastContainer
+					position="top-right"
+					autoClose={2000}
+					hideProgressBar={false}
+					newestOnTop
+					closeOnClick
+					pauseOnHover
+					draggable
+					theme="colored"
+				/>
         </div>
     );
 }
