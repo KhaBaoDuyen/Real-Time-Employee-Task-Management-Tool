@@ -9,12 +9,13 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { ToastContainer } from "react-toastify";
 import "./app.css";
 import "./styles/main.scss";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Sidebar } from "~/components/layout/Sidebar/Sidebar";
-import { Topbar } from "~/components/layout/Topbar/Topbar";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export const links: Route.LinksFunction = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -50,8 +51,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
- 	return (
-		<Outlet />
+	return (
+		<>
+			<Outlet />
+		</>
+
 	);
 }
 
