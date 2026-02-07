@@ -1,11 +1,59 @@
+import { FormProvider, useForm } from "react-hook-form";
 import type { CreateProp } from "./type/create.type";
 import { X } from 'lucide-react';
+import { toast } from "react-toastify";
 
 import TaskForm from "~/components/features/task/task.form";
+import { createTask } from "~/services/task.service";
+import { ITask } from "shared/types/task.interface";
+import { useEffect, useState } from "react";
+import { getStaffByStatus } from "~/services/staff.service";
 
 export default function TaskCreatePage({
-    onClose
+    onClose,
+    onSuccess
 }: CreateProp) {
+    const methods = useForm<ITask>();
+    const [staffByStatus, setStaffByStatus] = useState<any[]>([]);
+
+
+    const handleCreate = async (data: any) => {
+        const id = toast.loading("Đang xử lý...");
+        try {
+            const res = await createTask(data);
+
+            onSuccess?.();
+            toast.update(id, {
+                render: res.message,
+                type: "success",
+                isLoading: false,
+                autoClose: 2000
+            })
+            onClose();
+        } catch (err: any) {
+            toast.update(id, {
+                render: err.response?.data?.message || "Đã xảy ra lỗi",
+                type: "error",
+                isLoading: false,
+            })
+        }
+    }
+
+    // fetch staff by status
+    const fetchStaffByStatus = async () => {
+        try {
+            const res = await getStaffByStatus();
+            setStaffByStatus(res);
+            return;
+        } catch (err) {
+            return console.log("Error fetch staff where status => ", err);
+        }
+    }
+
+
+    useEffect(() => {
+        fetchStaffByStatus();
+    }, []);
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -16,8 +64,13 @@ export default function TaskCreatePage({
                         <X onClick={onClose} />
                     </span>
                 </span>
+                <FormProvider {...methods}>
+                    <TaskForm
+                        onSubmit={handleCreate}
+                        staffList={staffByStatus}
+                        mode="create" />
+                </FormProvider>
 
-                <TaskForm />
             </div>
         </div>
     );

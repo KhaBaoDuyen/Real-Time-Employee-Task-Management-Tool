@@ -1,4 +1,5 @@
-export type CreateProp = {
+export type EditProp = {
+  taskId: string;
   onClose: () => void;
   onSuccess?: () => void;
-}
+};

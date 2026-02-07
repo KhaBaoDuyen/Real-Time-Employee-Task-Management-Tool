@@ -1,74 +1,91 @@
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useFormContext } from "react-hook-form";
 import { Input } from "../form/Input";
-import { ImageUpload } from "../form/ImageUpload";
 import Switch from "../form/switch.badge";
-import { useState } from "react";
 import { Button } from "~/components/UI/Button/button";
 import { RichTextEditor } from "../form/RichTextEditor";
+import { ITask } from "shared/types/task.interface";
+import type { CreateProp } from "~/types/createForm.type";
+import { FilterSelect } from "../form/FilterSelect";
 
-export default function TaskForm() {
-    const methods = useForm();
-   const status = methods.watch("status", true);
-    const priority = methods.watch("priority", "low");
+export default function TaskForm({
+    onSubmit,
+    mode,
+    staffList
+}: CreateProp &
+    { staffList: any[] }) {
+    const methods = useFormContext<ITask>();
 
-
-
-    const handleSubmitForm = async (data: any) => {
-        console.log(data)
-    }
+    const priority = methods.watch("priority", 2);
+    const today = new Date().toISOString().split("T")[0];
 
     return (
-        <FormProvider {...methods}>
-            <form action="" className="flex flex-col gap-3" onSubmit={methods.handleSubmit(handleSubmitForm)}>
-                <Input
-                    id="title"
-                    label="Tên công việc"
-                    {...methods.register("title", { required: "Không được bỏ trống" })}
-                    error={methods.formState.errors.title} />
+        <form action="" className="flex flex-col gap-3" onSubmit={methods.handleSubmit(onSubmit)}>
+            <Input
+                id="title"
+                label="Tên công việc"
+                {...methods.register("title", { required: "Không được bỏ trống" })}
+                error={methods.formState.errors.title} />
+            <span className="flex justify-between items-center">
+                <p className="text-gray-500 text-sm">Người phụ trách hiện tại:</p>
                 <Controller
-                    name="description"
+                    name="staff_id"
                     control={methods.control}
-                    rules={{ required: "Không được bỏ trống" }}
-                    render={({ field, fieldState }) => (
-                        <RichTextEditor
-                            label="Mô tả công việc"
-                            value={field.value}
+                    render={({ field }) => (
+                        <FilterSelect
+                            value={field.value || ""}
                             onChange={field.onChange}
-                            error={fieldState.error}
+                            options={[
+                                { id: "", name: "Chưa phân công" },
+                                ...staffList
+                            ]}
                         />
                     )}
                 />
-                <span className="grid-cols-2 grid">
-                    <Switch
-                        label="Mức độ ưu tiên"
-                        value={priority}
-                        onChange={(val) => methods.setValue("priority", val)}
-                        options={[
-                            { label: "Không ưu tiên", value: "low" },
-                            { label: "Ưu tiên", value: "high" }
-                        ]}
-                    />
-                    <Switch
-                        label="Trạng thái"
-                        value={status}
-                        onChange={(val) => methods.setValue("status", val)}
-                        options={[
-                            { label: "Hiển thị", value: true },
-                            { label: "Ẩn", value: false }
-                        ]}
-                    />
-                </span>
 
-                <Input
-                    id="dueDate"
-                    type="date"
-                    label="Ngày đáo hạn"
-                    {...methods.register("dueDate", { required: "Chọn ngày đáo hạn" })}
-                    error={methods.formState.errors.dueDate}
+            </span>
+
+            <Controller
+                name="description"
+                control={methods.control}
+                rules={{ required: "Không được bỏ trống" }}
+                render={({ field, fieldState }) => (
+                    <RichTextEditor
+                        label="Mô tả công việc"
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={fieldState.error}
+                    />
+                )}
+            />
+            <span className="grid-cols-2 grid">
+                <Controller
+                    name="priority"
+                    control={methods.control}
+                    defaultValue={2}
+                    render={({ field }) => (
+                        <Switch
+                            label="Mức độ ưu tiên"
+                            value={field.value}
+                            onChange={field.onChange}
+                            options={[
+                                { label: "Ưu tiên", value: 1 },
+                                { label: "Bình thường", value: 2 }
+                            ]}
+                        />
+                    )}
                 />
+            </span>
 
-                <Button >Thêm công việc</Button>
-            </form>
-        </FormProvider>
+            <Input
+                id="due_date"
+                type="date"
+                min={today}
+                label="Ngày đáo hạn"
+                {...methods.register("due_date", { required: "Chọn ngày đáo hạn" })}
+                error={methods.formState.errors.due_date}
+            />
+
+            <Button>{mode === "edit" ? "Cập nhật công việc" : "Thêm công việc"}</Button>
+        </form>
     )
 }
