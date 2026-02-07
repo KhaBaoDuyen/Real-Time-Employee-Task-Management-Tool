@@ -1,3 +1,4 @@
 export type CreateProp ={
-    onClose?: ()=> void;
+    onClose: ()=> void;
+    onSuccess: ()=> void;
 }
