@@ -3,12 +3,15 @@ import type { CreateProp } from "./type/create.type";
 import { X } from 'lucide-react';
 import { toast } from "react-toastify";
 import { createStaff } from "~/services/staff.service";
+import { FormProvider, useForm } from "react-hook-form";
+import { IStaff } from "shared/types/staff.interface";
 
 export default function StaffCreatePage({
     onClose,
     onSuccess,
 }: CreateProp) {
 
+    const methods = useForm<IStaff>()
     const handleCreate = async (data: any) => {
         const id = toast.loading("Đang xử lý...");
         try {
@@ -26,7 +29,7 @@ export default function StaffCreatePage({
             if (!res.success) {
                 throw new Error(res.message);
             }
-            
+
             toast.update(id, {
                 render: res.message,
                 type: "success",
@@ -55,8 +58,10 @@ export default function StaffCreatePage({
                         <X onClick={onClose} />
                     </span>
                 </span>
+                <FormProvider {...methods}>
+                    <StaffForm onSubmit={handleCreate} />
+                </FormProvider>
 
-                <StaffForm onSubmit={handleCreate} />
             </div>
         </div>
     );

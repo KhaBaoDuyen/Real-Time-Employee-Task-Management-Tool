@@ -4,7 +4,7 @@ export interface IStaff {
     email: string,
     password: string,
     image: string,
-    status: boolean,
+    status: number,
     role: string,
 }
 
