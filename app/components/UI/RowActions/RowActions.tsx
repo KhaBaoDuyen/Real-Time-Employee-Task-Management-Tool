@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import type { RowActionProp } from "./RowActions.type";
-import { EllipsisVertical, SquarePen, Trash2 } from "lucide-react";
+import { EllipsisVertical, Eye, SquarePen, Trash2 } from "lucide-react";
 
 export const RowActions = ({ onEdit, onDelete }: RowActionProp) => {
     const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ export const RowActions = ({ onEdit, onDelete }: RowActionProp) => {
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-2 w-32 bg-white text-gray-700 rounded-lg shadow-lg border z-50">
+                <div className="absolute right-0 mt-2 w-40 bg-white text-gray-700 rounded-lg shadow-lg border z-50">
                     <button
                         onClick={() => {
                             onEdit?.();
@@ -36,7 +36,7 @@ export const RowActions = ({ onEdit, onDelete }: RowActionProp) => {
                         }}
                         className="block flex gap-2 w-full px-3 py-2 text-left hover:bg-gray-100 hover:rounded-lg"
                     >
-                        <SquarePen size={18}/> <p>Chỉnh sửa</p>
+                        <Eye size={18}/> <p>Xem chi tiết</p>
                     </button>
 
                     <button
