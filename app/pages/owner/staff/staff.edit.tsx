@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { IStaff } from "shared/types/staff.interface";
+import { IStaff } from "shared/interface/staff.interface";
 import StaffForm from "~/components/features/staff/staffForm";
 import Loading from "~/components/UI/Loading/loading";
 import { EditProp } from "./type/edit.type";

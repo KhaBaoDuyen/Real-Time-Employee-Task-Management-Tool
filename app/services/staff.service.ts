@@ -1,4 +1,4 @@
-import { IStaff } from "shared/types/staff.interface";
+import { IStaff } from "shared/interface/staff.interface";
 import { api } from "~/lib/api";
 
 export const getStaffs = async () => {

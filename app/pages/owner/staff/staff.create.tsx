@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { toast } from "react-toastify";
 import { createStaff } from "~/services/staff.service";
 import { FormProvider, useForm } from "react-hook-form";
-import { IStaff } from "shared/types/staff.interface";
+import { IStaff } from "shared/interface/staff.interface";
 
 export default function StaffCreatePage({
     onClose,

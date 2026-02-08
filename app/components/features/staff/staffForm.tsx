@@ -7,7 +7,7 @@ import Switch from "../form/switch.badge";
 import { useState } from "react";
 import { Button } from "~/components/UI/Button/button";
 import { CreateProp } from "~/types/createForm.type";
-import { IStaff } from "shared/types/staff.interface";
+import { IStaff } from "shared/interface/staff.interface";
 
 export default function StaffForm({ onSubmit, mode }: CreateProp) {
     const methods = useFormContext<IStaff>();

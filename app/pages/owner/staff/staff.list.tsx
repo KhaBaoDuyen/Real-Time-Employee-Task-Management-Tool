@@ -8,7 +8,7 @@ import { RowActions } from "~/components/UI/RowActions/RowActions";
 import StaffCreatePage from "./staff.create";
 
 //INTERFACE+ SREVICE
-import { IStaff, IStaffWithTasks } from "../../../../shared/types/staff.interface";
+import { IStaff, IStaffWithTasks } from "../../../../shared/interface/staff.interface";
 import { deleteStaffById, getStaffs } from "~/services/staff.service";
 import TaskEditPage from "../task/task.edit";
 import StaffEditPage from "./staff.edit";
