@@ -3,7 +3,7 @@ import { Input } from "../form/Input";
 import Switch from "../form/switch.badge";
 import { Button } from "~/components/UI/Button/button";
 import { RichTextEditor } from "../form/RichTextEditor";
-import { ITask } from "shared/types/task.interface";
+import { ITask } from "shared/interface/task.interface";
 import type { CreateProp } from "~/types/createForm.type";
 import { FilterSelect } from "../form/FilterSelect";
 

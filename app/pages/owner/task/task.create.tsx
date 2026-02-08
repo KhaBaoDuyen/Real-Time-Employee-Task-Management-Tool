@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 import TaskForm from "~/components/features/task/task.form";
 import { createTask } from "~/services/task.service";
-import { ITask } from "shared/types/task.interface";
+import { ITask } from "shared/interface/task.interface";
 import { useEffect, useState } from "react";
 import { getStaffs } from "~/services/staff.service";
 

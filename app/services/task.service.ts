@@ -1,5 +1,5 @@
 import { api } from "~/lib/api";
-import { ITask } from "../../shared/types/task.interface";
+import { ITask } from "../../shared/interface/task.interface";
 
 export const getTask = async () => {
     const res = await api.get("/task/list");

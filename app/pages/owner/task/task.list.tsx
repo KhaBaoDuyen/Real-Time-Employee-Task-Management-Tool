@@ -11,10 +11,10 @@ import TaskCreatePage from "~/pages/owner/task/task.create";
 import TaskEditPage from "~/pages/owner/task/task.edit";
 
 //INTERFACE+ SREVICE
-import { ITask } from "../../../../shared/types/task.interface";
+import { ITask } from "../../../../shared/interface/task.interface";
 import { deleteTaskById, getTask, updateTask } from "~/services/task.service";
 import { formatDate } from "~/utils/date.utils";
-import { IStaff } from "shared/types/staff.interface";
+import { IStaff } from "shared/interface/staff.interface";
 import { getStaffs } from "~/services/staff.service";
 import { FilterSelect } from "~/components/features/form/FilterSelect";
 import { ConfirmDelete } from "~/components/UI/ConfirmDelete/confirmDelete";
