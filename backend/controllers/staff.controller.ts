@@ -3,7 +3,6 @@ import { taskColection } from './../models/task.model';
 import { staffColection } from "../models/staff.model";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { uploadImage } from "../services/cloudinary.service";
 
 export const getStaffs = async (_req: Request, res: Response) => {
     try {
