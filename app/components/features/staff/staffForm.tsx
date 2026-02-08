@@ -12,42 +12,42 @@ import { IStaff } from "shared/types/staff.interface";
 export default function StaffForm({ onSubmit, mode }: CreateProp) {
     const methods = useFormContext<IStaff>();
 
-     return (
+    return (
         <form action="" className="" onSubmit={methods.handleSubmit(onSubmit)}>
-            <ImageUpload name="image" label="Ảnh nhân viên" />
-
-            <div className="grid grid-cols-2 gap-5">
+            <div className="flex flex-col gap-5">
                 <Input
                     id="name"
                     label="Tên nhân viên"
+                    placeholder="Kha Thị Bảo Duyên"
                     {...methods.register("name", { required: "Không được bỏ trống" })}
                     error={methods.formState.errors.name} />
+
                 <Input
                     id="email"
                     label="Địa chỉ email"
-                    {...methods.register("email", { required: "Không được bỏ trống" })}
+                    placeholder="example@gmail.com"
+                    {...methods.register("email", {
+                        required: "Không được bỏ trống",
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: "Email không hợp lệ"
+                        }
+                    })}
                     error={methods.formState.errors.email} />
-                <Controller
-                    name="status"
-                    control={methods.control}
-                    defaultValue={1}
-                    render={({ field }) => (
-                        <Switch
-                            label="Trạng thái"
-                            value={field.value}
-                            onChange={field.onChange}
-                            options={[
-                                { label: "Hoạt động", value: 1 },
-                                { label: "Khóa", value: 0 }
-                            ]}
-                        />
-                    )}
-                />
+
                 <Input
-                    id="password"
-                    label="Mật khẩu"
-                    {...methods.register("password", { required: "Không được bỏ trống" })}
-                    error={methods.formState.errors.password} />
+                    id="phone"
+                    label="Số điện thoại"
+                    placeholder="0337019197"
+                    {...methods.register("phone", {
+                        required: "Không được bỏ trống",
+                        pattern: {
+                            value: /^[0-9]{9,11}$/,
+                            message: "Số điện thoại không hợp lệ"
+                        }
+                    })}
+                    error={methods.formState.errors.phone} />
+
                 <span className="col-span-2">
                     <Button>{mode === "edit" ? "Cập nhật nhân viên" : "Thêm nhân viên"}</Button>
                 </span>

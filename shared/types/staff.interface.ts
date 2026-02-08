@@ -2,8 +2,7 @@ export interface IStaff {
     id?:string,
     name: string,
     email: string,
-    password: string,
-    image: string,
+    phone: string,
     status: number,
     role: string,
 }

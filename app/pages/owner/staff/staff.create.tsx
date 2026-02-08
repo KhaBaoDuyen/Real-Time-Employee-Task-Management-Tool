@@ -15,16 +15,7 @@ export default function StaffCreatePage({
     const handleCreate = async (data: any) => {
         const id = toast.loading("Đang xử lý...");
         try {
-            const formData = new FormData();
-
-            formData.append("name", data.name);
-            formData.append("email", data.email);
-            formData.append("password", data.password);
-            formData.append("status", String(data.status));
-            formData.append("image", data.image[0]);
-
-            const res = await createStaff(formData);
-
+            const res = await createStaff(data);
             // console.log("form data FE req =>", formData);
             if (!res.success) {
                 throw new Error(res.message);

@@ -9,12 +9,19 @@ import StaffCreatePage from "./staff.create";
 
 //INTERFACE+ SREVICE
 import { IStaff, IStaffWithTasks } from "../../../../shared/types/staff.interface";
-import { getStaffByStatus, getStaffs } from "~/services/staff.service";
+import { deleteStaffById, getStaffs } from "~/services/staff.service";
+import TaskEditPage from "../task/task.edit";
+import StaffEditPage from "./staff.edit";
+import { toast } from "react-toastify";
+import { ConfirmDelete } from "~/components/UI/ConfirmDelete/confirmDelete";
 
 export default function StaffListPage() {
     const [loading, setLoading] = useState(false);
     const [staffs, setStaffs] = useState<IStaffWithTasks[]>([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [isopenEdit, setIsOpenEdit] = useState(false);
+    const [editId, setEditId] = useState<string | null>(null);
+    const [deleteId, setDeleteId] = useState<string | null>(null);
 
     const handleOpentCreate = async () => {
         setIsOpen((prev) => !prev);
@@ -26,7 +33,7 @@ export default function StaffListPage() {
             const res = await getStaffs();
             console.log(res);
 
-            setStaffs(res.data);
+            return setStaffs(res);
         } catch (err) {
             console.log("Error fetch staffs =>", err);
         } finally {
@@ -38,6 +45,41 @@ export default function StaffListPage() {
         fetchStaff();
     }, []);
 
+
+    // open form edit 
+    const handleOpenEdit = (id: string) => {
+        setEditId(id);
+        setIsOpenEdit(true);
+    }
+
+    //delete
+    const handleDelete = (staff_id: string) => {
+        setDeleteId(staff_id);
+    }
+
+    const handleConfirmDelete = async () => {
+        const id = toast.loading("Đang xử lý...");
+        try {
+            const res = await deleteStaffById(String(deleteId));
+            setDeleteId(null);
+            fetchStaff();
+
+            toast.update(id, {
+                render: res.message,
+                type: "success",
+                isLoading: false,
+                autoClose: 2000,
+            })
+        } catch (err: any) {
+            console.log("Error delete staff =>", err);
+            return toast.update(id, {
+                render: err.response?.data?.message || "Đã xảy ra lỗi",
+                type: "error",
+                isLoading: false,
+                autoClose: 2000,
+            })
+        }
+    }
     return (
         <>
             <div className="py-5 relative">
@@ -56,16 +98,16 @@ export default function StaffListPage() {
                                 <thead className="sticky top-0 z-10 text-white shadow">
                                     <tr className="text-center">
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-l-md">Id</th>
-                                        <th colSpan={2} className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Tên nhân viên</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Tên nhân viên</th>
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Địa chỉ email</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Số điện thoại</th>
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Task</th>
-                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Trạng thái</th>
                                         <th className="py-3 px-4 flex justify-center bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-r-md"><EllipsisVertical /></th>
                                     </tr>
                                 </thead>
                                 {loading ? (
                                     <tr>
-                                        <td colSpan={7} className="text-center py-8 text-white bg-white/10 border-l-0 transition-all duration-300 rounded-md">
+                                        <td colSpan={6} className="text-center py-8 text-white bg-white/10 border-l-0 transition-all duration-300 rounded-md">
                                             <Loading />
                                         </td>
                                     </tr>
@@ -81,25 +123,29 @@ export default function StaffListPage() {
                                             staffs.map((s, index) => (
                                                 <tr key={index} className="shadow text-center text-white hover:scale-102">
                                                     <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300 rounded-l-md">{index + 1}</td>
-
-                                                    <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">
-                                                        <img
-                                                            src={s.image}
-                                                            alt={s.name}
-                                                            className="w-15 h-15 object-cover rounded"
-                                                        />
-                                                    </td>
-
                                                     <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">{s.name}</td>
                                                     <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">{s.email}</td>
-                                                    <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">{s.totalTasks}</td>
-                                                    <td className="py-3 px-4  bg-white/10 border-l-0 transition-all duration-300">
-                                                        <p className={` rounded-2xl ${s.status ? "bg-success" : "danger"}`}> {s.status ? "Hoạt động" : "Không hoạt động"}</p>
+                                                    <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">{s.phone}</td>
+                                                    <td className="py-3 px-4 bg-white/10 flex justify-center border-l-0 transition-all duration-300">
+                                                        <p
+                                                            className={`w-fit px-3 py-1 rounded-full
+         ${s.totalTasks === 0
+                                                                    ? "bg-white text-black"
+                                                                    : s.totalTasks < 5
+                                                                        ? "bg-yellow-500/60"
+                                                                        : s.totalTasks < 10
+                                                                            ? "bg-blue-700/60"
+                                                                            : "bg-green-600/60"
+                                                                }
+      `}
+                                                        >
+                                                            {s.totalTasks}
+                                                        </p>
                                                     </td>
-
                                                     <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300 rounded-r-md">
                                                         <RowActions
-                                                        // onEdit={() => navigate(`/admin/staff/${s.slug}/edit`)}
+                                                            onEdit={() => handleOpenEdit(String(s.id))}
+                                                            onDelete={() => handleDelete(String(s.id))}
                                                         />
                                                     </td>
                                                 </tr>
@@ -119,6 +165,21 @@ export default function StaffListPage() {
                     <> <StaffCreatePage
                         onClose={() => setIsOpen(false)}
                         onSuccess={fetchStaff} /></>
+                )}
+
+                {isopenEdit && (
+                    <StaffEditPage
+                        staff_id={String(editId)}
+                        onClose={() => setIsOpenEdit(false)}
+                        onSuccess={fetchStaff}
+                    />
+                )}
+
+                {deleteId && (
+                    <ConfirmDelete
+                        id={deleteId}
+                        onConfirm={handleConfirmDelete}
+                        onCancel={() => setDeleteId(null)} />
                 )}
             </div>
         </>

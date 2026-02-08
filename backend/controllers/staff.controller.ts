@@ -39,37 +39,39 @@ export const getStaffs = async (_req: Request, res: Response) => {
     }
 }
 
-export const getStaffsWhereStatus = async (_req: Request, res: Response) => {
+export const getStaffId = async (req: Request, res: Response) => {
     try {
-        const data = await staffColection
-            .where("status", "==", "true")
-            .get();
+        const staffId = String(req.params.staff_id);
+        const getId = await staffColection.doc(staffId).get();
 
-        const staffs = data.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
+        if (!getId.exists) {
+            return res.status(400).json({
+                success: false,
+                message: "Không tìm thấy nhân viên này",
+            })
+        }
 
         return res.status(200).json({
             success: true,
-            data: staffs,
+            data: {
+                ...getId.data()
+            }
         })
     } catch (err: any) {
-        console.log(" Error get staff where status =>", err);
         return res.status(500).json({
             success: false,
-            message: "Error get staffs controler where status",
+            message: "Error getId staff"
         })
     }
 }
 
 export const createStaff = async (req: Request, res: Response) => {
     try {
-        const { name, email, password, status } = req.body;
+        const { name, email, phone } = req.body;
 
         // console.log("Body:", req.body);
         // console.log("File:", req.file);
-        if (!name || !email || !password) {
+        if (!name || !email || !phone) {
             return res.status(400).json(
                 {
                     success: false,
@@ -90,19 +92,11 @@ export const createStaff = async (req: Request, res: Response) => {
             })
         }
 
-        let image = "";
-        if (req.file) {
-            image = await uploadImage(req.file.buffer, "staffs");
-        }
-
-        const hassPassword = await bcrypt.hash(password, 10);
-
         const dataForm = await staffColection.add({
             name,
             email,
-            password: hassPassword,
-            status,
-            image: image,
+            role: "staff",
+            phone,
             createAt: new Date(),
         });
 
@@ -113,7 +107,6 @@ export const createStaff = async (req: Request, res: Response) => {
             message: " Thêm nhân viên thành công",
             data: {
                 id: dataForm.id,
-                image: image,
             }
         })
     } catch (err: any) {
@@ -127,3 +120,63 @@ export const createStaff = async (req: Request, res: Response) => {
     }
 }
 
+export const updateStaff = async (req: Request, res: Response) => {
+    try {
+        const staff_id = String(req.params.staff_id);
+
+        const data = {
+            ...req.body,
+            updateAt: new Date(),
+        }
+
+        if (!staff_id) {
+            return res.status(400).json({
+                success: false,
+                message: "Không tìm thấy nhân viên",
+            })
+        }
+
+        await staffColection.doc(staff_id).update(data);
+
+        return res.status(200).json({
+            success: true,
+            message: "cập nhật nhân viên thành công"
+        });
+    } catch (err: any) {
+        console.log("Error update staff =>", err);
+        return res.status(500).json({
+            success: false,
+            message: "Error BE update staff",
+        })
+    }
+}
+
+export const deleteStaff = async (req: Request, res: Response) => {
+    try {
+        const staff_id = String(req.params.staff_id);
+
+        const ref = await staffColection.doc(staff_id);
+        const doc = await ref.get();
+
+        if (!doc.exists) {
+            return res.status(400).json({
+                success: false,
+                message: "Không tìm thấy nhân viên"
+            })
+        }
+
+        await ref.delete();
+
+        return res.status(200).json({
+            success: true,
+            message: "Xóa thành công"
+        })
+    } catch (err: any) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Xóa thất bại",
+            }
+        )
+    }
+}
