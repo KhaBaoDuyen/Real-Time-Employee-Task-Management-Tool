@@ -1,5 +1,5 @@
-import { Route } from "../../../+types/root";
-import LoginOwnerPage from "~/pages/auth/owner/login";
+import { Route } from "../../+types/root";
+import LoginOwnerPage from "~/pages/auth/login/login.owner";
 
 export function meta({ }: Route.MetaArgs) {
     return [
