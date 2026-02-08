@@ -85,47 +85,46 @@ export const RichTextEditor = ({ label, value, onChange, error }: Props) => {
 
             <div className="flex flex-wrap gap-1 border p-2 rounded-md bg-gray-50">
 
-                <button className={btn} onClick={() => editor.chain().focus().toggleBold().run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().toggleBold().run()}>
                     <Bold size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().toggleItalic().run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().toggleItalic().run()}>
                     <Italic size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().toggleUnderline().run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().toggleUnderline().run()}>
                     <UnderlineIcon size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
                     <Heading2 size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().toggleBulletList().run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().toggleBulletList().run()}>
                     <List size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
                     <ListOrdered size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().setTextAlign("left").run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().setTextAlign("left").run()}>
                     <AlignLeft size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().setTextAlign("center").run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().setTextAlign("center").run()}>
                     <AlignCenter size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().undo().run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().undo().run()}>
                     <Undo2 size={16} />
                 </button>
 
-                <button className={btn} onClick={() => editor.chain().focus().redo().run()}>
+                <button type="button" className={btn} onClick={() => editor.chain().focus().redo().run()}>
                     <Redo2 size={16} />
                 </button>
 
-            
                 <input
                     ref={fileRef}
                     type="file"
