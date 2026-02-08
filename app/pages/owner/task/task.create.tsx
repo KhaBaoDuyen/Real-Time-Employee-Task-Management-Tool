@@ -7,7 +7,7 @@ import TaskForm from "~/components/features/task/task.form";
 import { createTask } from "~/services/task.service";
 import { ITask } from "shared/types/task.interface";
 import { useEffect, useState } from "react";
-import { getStaffByStatus } from "~/services/staff.service";
+import { getStaffs } from "~/services/staff.service";
 
 export default function TaskCreatePage({
     onClose,
@@ -39,10 +39,10 @@ export default function TaskCreatePage({
         }
     }
 
-    // fetch staff by status
-    const fetchStaffByStatus = async () => {
+    // fetch  
+    const fetchStaff = async () => {
         try {
-            const res = await getStaffByStatus();
+            const res = await getStaffs();
             setStaffByStatus(res);
             return;
         } catch (err) {
@@ -52,7 +52,7 @@ export default function TaskCreatePage({
 
 
     useEffect(() => {
-        fetchStaffByStatus();
+        fetchStaff();
     }, []);
 
     return (

@@ -9,7 +9,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { ITask } from "shared/types/task.interface";
 import { useEffect, useState } from "react";
 import Loading from "~/components/UI/Loading/loading";
-import { getStaffByStatus } from "~/services/staff.service";
+import { getStaffs } from "~/services/staff.service";
 
 export default function TaskEditPage({
     taskId,
@@ -38,25 +38,42 @@ export default function TaskEditPage({
     }, [taskId]);
 
     const handleUpdate = async (formData: ITask) => {
-        await updateTask(taskId, formData);
-        onSuccess?.();
-        onClose();
+        const id = toast.loading("Đang xử lý");
+        try {
+            const res = await updateTask(taskId, formData);
+            onSuccess?.();
+            onClose();
+
+            return toast.update(id, {
+                render: res.message,
+                type: "success",
+                isLoading: false,
+                autoClose: 2000,
+            })
+        } catch (err: any) {
+            return toast.update(id, {
+                render: err.response?.data?.message || "Đã xảy ra lỗi",
+                type: "error",
+                isLoading: false,
+                autoClose: 2000,
+            })
+        }
     };
 
-        const fetchStaffByStatus = async () => {
-            try {
-                const res = await getStaffByStatus();
-                setStaffByStatus(res);
-                return;
-            } catch (err) {
-                return console.log("Error fetch staff where status => ", err);
-            }
+    const fetchStaffByStatus = async () => {
+        try {
+            const res = await getStaffs();
+            setStaffByStatus(res);
+            return;
+        } catch (err) {
+            return console.log("Error fetch staff where status => ", err);
         }
-    
-    
-        useEffect(() => {
-            fetchStaffByStatus();
-         }, []);
+    }
+
+
+    useEffect(() => {
+        fetchStaffByStatus();
+    }, []);
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">

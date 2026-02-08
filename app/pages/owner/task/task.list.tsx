@@ -2,6 +2,7 @@ import { EllipsisVertical } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { STATUS_MAP } from "~/constants/task.constants";
 
 //COMPONENTS
 import Loading from "~/components/UI/Loading/loading";
@@ -14,7 +15,7 @@ import { ITask } from "../../../../shared/types/task.interface";
 import { deleteTaskById, getTask, updateTask } from "~/services/task.service";
 import { formatDate } from "~/utils/date.utils";
 import { IStaff } from "shared/types/staff.interface";
-import { getStaffByStatus } from "~/services/staff.service";
+import { getStaffs } from "~/services/staff.service";
 import { FilterSelect } from "~/components/features/form/FilterSelect";
 import { ConfirmDelete } from "~/components/UI/ConfirmDelete/confirmDelete";
 
@@ -49,7 +50,7 @@ export default function TaskListPage() {
 
     const fetchStaffByStatus = async () => {
         try {
-            const res = await getStaffByStatus();
+            const res = await getStaffs();
             setStaffByStatus(res);
             return;
         } catch (err) {
@@ -149,9 +150,9 @@ export default function TaskListPage() {
                                     <tr className="text-center">
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-l-md">Id</th>
                                         <th className="py-3 px-4 text-left bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300">Tiêu đề</th>
-                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Nội dung công việc</th>
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Mức độ</th>
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Người phụ trách</th>
+                                        <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Trạng thái</th>
                                         <th className="py-3 px-4 bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 ">Ngày đáo hạn</th>
                                         <th className="py-3 px-4 flex justify-center bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-r-md"><EllipsisVertical /></th>
                                     </tr>
@@ -164,7 +165,7 @@ export default function TaskListPage() {
                                     </tr>
                                 ) : (
                                     <tbody>
-                                        {filterTasks.length === 0 ? (
+                                        {tasks.length === 0 ? (
                                             <tr>
                                                 <td colSpan={7} className="text-center py-8 text-white bg-white/10 backdrop-blur-xl border-l-0 transition-all duration-300 rounded-md">
                                                     Không có công việc
@@ -173,13 +174,12 @@ export default function TaskListPage() {
                                         ) : (
                                             filterTasks.map((t, index) => (
                                                 <tr key={index} className="shadow text-center text-white hover:border-1 border-white ">
-                                                    <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300 rounded-l-md">{index + 1}</td>
+                                                    <td className="py-3 px-4 text-left bg-white/10 border-l-0 transition-all duration-300 rounded-l-md">{index + 1}</td>
                                                     <td className="py-3 px-4 text-left bg-white/10 border-l-0 transition-all duration-300">
-                                                        <p className="line-clamp-3">{t.title}</p>
+                                                        <p className="line-clamp-2">{t.title}</p>
+                                                        <p dangerouslySetInnerHTML={{ __html: t.description }} className="line-clamp-3 text-sm text-gray-400"></p>
                                                     </td>
-                                                    <td className="py-3 px-4 text-left bg-white/10 border-l-0 transition-all duration-300">
-                                                        <p dangerouslySetInnerHTML={{ __html: t.description }} className="line-clamp-3"></p>
-                                                    </td>
+
                                                     <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">
                                                         <span className={`px-3 py-1 rounded-full text-sm font-bold 
                                                         ${t.priority === 1 ?
@@ -193,12 +193,17 @@ export default function TaskListPage() {
                                                         <span className="flex justify-center">
                                                             <FilterSelect
                                                                 value={t.staff_id || ""}
-                                                                onChange={(staffId) => handleUpdateStaff(String(t.id), String(staffId))}
+                                                                onChange={(staff_id) => handleUpdateStaff(String(t.id), String(staff_id))}
                                                                 options={[
                                                                     { id: "", name: "Chưa phân công" },
                                                                     ...staffByStatus
                                                                 ]}
                                                             />
+                                                        </span>
+                                                    </td>
+                                                    <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">
+                                                        <span className={`px-3 py-1 rounded-full ${STATUS_MAP[t.status]?.color}`}>
+                                                            {STATUS_MAP[t.status]?.label}
                                                         </span>
                                                     </td>
                                                     <td className="py-3 px-4 bg-white/10 border-l-0 transition-all duration-300">{formatDate(t.due_date)}</td>

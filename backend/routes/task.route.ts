@@ -5,9 +5,9 @@ import { updateTask } from "../controllers/task.controller";
 const routes = Router();
 
 routes.get("/list", getTask);
-routes.get("/:taskId", getTaskById);
+routes.get("/:task_id", getTaskById);
 routes.post("/create", createTask);
-routes.put("/:taskId", updateTask);
-routes.delete("/:taskId/delete" , deleteTaskId);
+routes.put("/:task_id", updateTask);
+routes.delete("/:task_id/delete" , deleteTaskId);
 
 export default routes;

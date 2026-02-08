@@ -27,9 +27,9 @@ export const getTask = async (_req: Request, res: Response) => {
 
 export const getTaskById = async (req: Request, res: Response) => {
     try {
-        const taskId = String(req.params.taskId);
+        const task_id = String(req.params.task_id);
 
-        const doc = await taskColection.doc(taskId).get();
+        const doc = await taskColection.doc(task_id).get();
 
         if (!doc.exists) {
             return res.status(404).json({
@@ -108,11 +108,13 @@ export const createTask = async (req: Request, res: Response) => {
 
 export const updateTask = async (req: Request, res: Response) => {
     try {
-        const task_id = String(req.params.taskId);
+        const task_id = String(req.params.task_id);
         const data = {
             ...req.body,
             updatedAt: new Date(),
         }
+        // console.log("task_id", task_id);
+        // console.log("data", data);
 
         if (!task_id) {
             return res.status(400).json({
@@ -138,9 +140,9 @@ export const updateTask = async (req: Request, res: Response) => {
 
 export const deleteTaskId = async (req: Request, res: Response) => {
     try {
-        const taskId = String(req.params.taskId);
+        const task_id = String(req.params.task_id);
 
-        const ref = await taskColection.doc(taskId);
+        const ref = await taskColection.doc(task_id);
         const doc = await ref.get();
 
         if (!doc.exists) {

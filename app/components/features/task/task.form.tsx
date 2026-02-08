@@ -14,8 +14,6 @@ export default function TaskForm({
 }: CreateProp &
     { staffList: any[] }) {
     const methods = useFormContext<ITask>();
-
-    const priority = methods.watch("priority", 2);
     const today = new Date().toISOString().split("T")[0];
 
     return (

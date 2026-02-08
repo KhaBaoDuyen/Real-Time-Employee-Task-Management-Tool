@@ -5,8 +5,8 @@ export const getTask = async () => {
     const res = await api.get("/task/list");
     return res.data.data;
 }
-export const getTaskById = async (taskId: string) => {
-  const res = await api.get(`/task/${taskId}`);
+export const getTaskById = async (task_id: string) => {
+  const res = await api.get(`/task/${task_id}`);
   return res.data.data;
 };
 
@@ -16,14 +16,14 @@ export const createTask = async (data: ITask) => {
 }
 
 export const updateTask = async (
-  taskId: string,
+  task_id: string,
   data: Partial<ITask>
 ) => {
-  const res = await api.put(`/task/${taskId}`, data);
+  const res = await api.put(`/task/${task_id}`, data);
   return res.data;
 };
 
-export const deleteTaskById = async( taskId: string) =>{
-   const res = await api.delete(`/task/${taskId}/delete`);
+export const deleteTaskById = async( task_id: string) =>{
+   const res = await api.delete(`/task/${task_id}/delete`);
    return res.data;
 }
